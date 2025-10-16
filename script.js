@@ -35,6 +35,8 @@ function displayBook() {
 
     const card = document.createElement("div");
 
+    card.setAttribute("dataId", book.id);
+
     const titleT = document.createElement("h2")
     const authorT = document.createElement("h4")
     const pageT = document.createElement("p")
@@ -44,6 +46,25 @@ function displayBook() {
     pageT.textContent = book.page;
 
     card.append(titleT, authorT, pageT);
+
+    // Add a delete button on each card.
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete Book";
+
+    // I set this attribut on the card to link it to the book directly
+    card.setAttribute("dataId", book.id); 
+
+    deleteBtn.addEventListener("click", () => {
+        // Remove card from the display
+        card.remove();
+
+        // Remove book from the library. I first find the index of the book in the myLibrary and then remove it based on that index.
+        const bookIndexInLibrary = myLibrary.findIndex(obj => obj.id === card.getAttribute("dataId"));
+        if(bookIndexInLibrary !== -1) {
+            myLibrary.splice(bookIndexInLibrary, 1);
+        };
+    });
+    card.appendChild(deleteBtn);
 
     container.appendChild(card);
     }
