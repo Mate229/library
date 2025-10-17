@@ -41,7 +41,7 @@ function displayBook() {
 
     titleT.textContent = book.title;
     authorT.textContent = book.author;
-    pageT.textContent = book.page;
+    pageT.textContent = `${book.page} pages`;
 
     card.append(titleT, authorT, pageT);
 
