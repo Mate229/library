@@ -20,3 +20,7 @@
     font-style: italic;
     font-weight: inherit;
 }
+
+.book-read {
+    background-color: green;
+}

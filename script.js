@@ -17,12 +17,12 @@ function addBookToLibrary(title, author, page) {
 };
 
 // I created some dummy books to visualize the display, might delete later.
-addBookToLibrary("Ali", "mo", 29);
-addBookToLibrary("Alid", "mot", 20);
-addBookToLibrary("Alipo", "muo", 299);
-addBookToLibrary("Aliang", "tsmo", 129);
-addBookToLibrary("Alidfang", "tsfmo", 19);
-addBookToLibrary("Adfang", "tsdffmo", 49);
+addBookToLibrary("The Game of Life", "Florence Scovel Shinn", 139);
+addBookToLibrary("The Goat of my Mother", "Ricardo Kaniama", 201);
+addBookToLibrary("Kondo Le Requin", "Jean Pliya", 104);
+addBookToLibrary("Le Prince", "Machiavel", 227);
+addBookToLibrary("Man's Search for Meaning", "Viktor E. Frankl", 148);
+addBookToLibrary("The Intelligent Investor", "Benjamin Graham", 641);
 
 const container = document.querySelector(".library-container");
 
@@ -34,8 +34,6 @@ function displayBook() {
     for(let book of myLibrary) {
 
     const card = document.createElement("div");
-
-    card.setAttribute("dataId", book.id);
 
     const titleT = document.createElement("h2")
     const authorT = document.createElement("h4")
@@ -51,7 +49,7 @@ function displayBook() {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete Book";
 
-    // I set this attribut on the card to link it to the book directly
+    // I set this attribute on the card to link it to the book directly
     card.setAttribute("dataId", book.id); 
 
     deleteBtn.addEventListener("click", () => {
@@ -66,11 +64,26 @@ function displayBook() {
     });
     card.appendChild(deleteBtn);
 
+    const statusBtn = document.createElement("button");
+    statusBtn.textContent = "Mark Read";
+    statusBtn.addEventListener("click", () => {
+        statusBtn.textContent = "Read ✅";
+        card.classList.add("book-read");
+        statusBtn.disabled = true;
+        book.markRead();
+    })
+
+    card.appendChild(statusBtn);
+
     container.appendChild(card);
     }
 };
 // First call of the display..
 displayBook();
+
+Book.prototype.markRead = function() {
+    this.status = "read";
+}
 
 
 const dialog = document.querySelector("dialog");
