@@ -81,6 +81,7 @@ function displayBook() {
 // First call of the display..
 displayBook();
 
+// I create this read function on Book prototype to be able to call it on each book.
 Book.prototype.markRead = function() {
     this.status = "read";
 }
@@ -116,4 +117,11 @@ submitBtn.addEventListener("click", (e) => {
 
     // Everytime I submitted, and I want to add a new one, the inputs were filled with the text I typed before, so I need to reset them.
     form.reset();
+});
+
+// Dark-Light mode
+const mode = document.querySelector(".icons");
+const body = document.querySelector("body");
+mode.addEventListener("click", () => {
+    body.classList.toggle("dark")
 });
