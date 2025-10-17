@@ -119,3 +119,31 @@ button:hover {
 .book-read {
     background-color: green;
 }
+
+dialog {
+    width: 60vw;
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    background: radial-gradient(var(--bg-clr), var(--hd-bg-clr));
+    border: none;
+    border-radius: 1rem;
+}
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+dialog form > div:last-child {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+dialog input {
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+}
