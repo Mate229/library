@@ -25,9 +25,9 @@ body > div:first-child {
 .dark {
     --_hd-bg-clr: #046e8f;
     --_dark-bg-clr: #0f0e11;
-    --_txt-clr: var(var(--bg-clr));
+    --_txt-clr: var(--bg-clr);
 
-    color: var(--bg-clr);
+    color: var(--_txt-clr);
     background-color: var(--_dark-bg-clr);
 }
 
