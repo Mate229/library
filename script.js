@@ -40,7 +40,7 @@ function displayBook() {
     const pageT = document.createElement("p")
 
     titleT.textContent = book.title;
-    authorT.textContent = book.author;
+    authorT.textContent = `by ${book.author}`;
     pageT.textContent = `${book.page} pages`;
 
     card.append(titleT, authorT, pageT);
