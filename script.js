@@ -1,90 +1,78 @@
 const myLibrary = [];
 
-// Object constructor for the books....
-function Book(title, author, page) {
-    if(!new.target) {
-        throw Error("You must use the 'new' operator to call the constructor");
-    };
-    this.title = title;
-    this.author = author;
-    this.page = page;
-    this.id = crypto.randomUUID();
-};
+class Book {
+    constructor(title, author, page) {
+        this.title = title;
+        this.author = author;
+        this.page = page;
+        this.id = crypto.randomUUID();
+    }
 
-function addBookToLibrary(title, author, page) {
-    const book = new Book(title, author, page);
-    myLibrary.push(book);
-};
+    addBookToLibrary() {
+        myLibrary.push(this);
+    }
 
-// I created some dummy books to visualize the display, might delete later.
-addBookToLibrary("The Game of Life", "Florence Scovel Shinn", 139);
-addBookToLibrary("The Goat of my Mother", "Ricardo Kaniama", 201);
-addBookToLibrary("Kondo Le Requin", "Jean Pliya", 104);
-addBookToLibrary("Le Prince", "Machiavel", 227);
-addBookToLibrary("Man's Search for Meaning", "Viktor E. Frankl", 148);
-addBookToLibrary("The Intelligent Investor", "Benjamin Graham", 641);
+    markRead() {
+        this.status = "read";
+    }
+};
 
 const container = document.querySelector(".library-container");
 
 function displayBook() {
-    // Delete content of the display to make sure there is no double
-    container.innerHTML = "";
 
     // Display the books in library
     for(let book of myLibrary) {
+        if (document.querySelector(`[dataId="${book.id}"]`) === null) { //This condition is to check wether the book is already displayed.. to avoid doubles..
+            const card = document.createElement("div");
 
-    const card = document.createElement("div");
+            const titleT = document.createElement("h2")
+            const authorT = document.createElement("h4")
+            const pageT = document.createElement("p")
 
-    const titleT = document.createElement("h2")
-    const authorT = document.createElement("h4")
-    const pageT = document.createElement("p")
+            titleT.textContent = book.title;
+            authorT.textContent = `by ${book.author}`;
+            pageT.textContent = `${book.page} pages`;
 
-    titleT.textContent = book.title;
-    authorT.textContent = `by ${book.author}`;
-    pageT.textContent = `${book.page} pages`;
+            card.append(titleT, authorT, pageT);
 
-    card.append(titleT, authorT, pageT);
+            // Add a delete button on each card.
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete Book";
 
-    // Add a delete button on each card.
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete Book";
+            // I set this attribute on the card to link it to the book directly
+            card.setAttribute("dataId", book.id); 
 
-    // I set this attribute on the card to link it to the book directly
-    card.setAttribute("dataId", book.id); 
+            deleteBtn.addEventListener("click", () => {
+                // Remove card from the display
+                card.remove();
 
-    deleteBtn.addEventListener("click", () => {
-        // Remove card from the display
-        card.remove();
+                // Remove book from the library. I first find the index of the book in the myLibrary and then remove it based on that index.
+                const bookIndexInLibrary = myLibrary.findIndex(obj => obj.id === card.getAttribute("dataId"));
+                if(bookIndexInLibrary !== -1) {
+                    myLibrary.splice(bookIndexInLibrary, 1);
+                };
+            });
+            card.appendChild(deleteBtn);
 
-        // Remove book from the library. I first find the index of the book in the myLibrary and then remove it based on that index.
-        const bookIndexInLibrary = myLibrary.findIndex(obj => obj.id === card.getAttribute("dataId"));
-        if(bookIndexInLibrary !== -1) {
-            myLibrary.splice(bookIndexInLibrary, 1);
-        };
-    });
-    card.appendChild(deleteBtn);
+            const statusBtn = document.createElement("button");
+            statusBtn.textContent = "Mark Read";
+            statusBtn.addEventListener("click", () => {
+                statusBtn.textContent = "Read ✅";
+                card.classList.add("book-read");
+                statusBtn.disabled = true;
+                book.markRead();
+            })
 
-    const statusBtn = document.createElement("button");
-    statusBtn.textContent = "Mark Read";
-    statusBtn.addEventListener("click", () => {
-        statusBtn.textContent = "Read ✅";
-        card.classList.add("book-read");
-        statusBtn.disabled = true;
-        book.markRead();
-    })
+            card.appendChild(statusBtn);
 
-    card.appendChild(statusBtn);
-
-    container.appendChild(card);
-    }
-};
+            container.appendChild(card);
+        
+        }
+    };
+}
 // First call of the display..
 displayBook();
-
-// I create this read function on Book prototype to be able to call it on each book.
-Book.prototype.markRead = function() {
-    this.status = "read";
-}
 
 
 const dialog = document.querySelector("dialog");
@@ -108,7 +96,8 @@ submitBtn.addEventListener("click", (e) => {
     const bookAuthor = document.querySelector("#book-author");
     const bookPage = document.querySelector("#book-pages");
 
-    addBookToLibrary(bookTitle.value, bookAuthor.value, bookPage.value);
+    const newBook = new Book(bookTitle.value, bookAuthor.value, bookPage.value);
+    newBook.addBookToLibrary();
 
     // I recall this function here because, the created book won't appear on the display if I didn't recall
     displayBook();
