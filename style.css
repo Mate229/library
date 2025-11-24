@@ -147,3 +147,11 @@ dialog input {
     border-radius: 10px;
     font: inherit;
 }
+
+.icons {
+    transition: transform .3s ease;
+}
+
+.rotate {
+    transform: rotate(1turn);
+}

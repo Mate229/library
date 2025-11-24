@@ -90,6 +90,7 @@ cancelBtn.addEventListener("click", () => {
 });
 
 submitBtn.addEventListener("click", (e) => {
+    if (bookTitle.validity.valueMissing || bookAuthor.validity.valueMissing || bookPage.validity.valueMissing) return; 
     e.preventDefault();
 
     const bookTitle = document.querySelector("#book-title");
@@ -112,5 +113,7 @@ submitBtn.addEventListener("click", (e) => {
 const mode = document.querySelector(".icons");
 const body = document.querySelector("body");
 mode.addEventListener("click", () => {
-    body.classList.toggle("dark")
+    body.classList.toggle("dark");
+    const icons = document.querySelector('.icons');
+    icons.classList.toggle('rotate');
 });
